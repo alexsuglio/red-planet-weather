@@ -1,0 +1,506 @@
+/* ─── Reset & Tokens ──────────────────────────────────────────────────────── */
+:root {
+  --bg:          #09090f;
+  --bg-panel:    #111120;
+  --bg-card:     #16162a;
+  --bg-hover:    #1e1e35;
+  --border:      rgba(255,255,255,0.07);
+  --border-mars: rgba(239,68,68,0.35);
+  --border-earth:rgba(59,130,246,0.35);
+
+  --mars:   #ef4444;
+  --mars-lo:#7f1d1d;
+  --earth:  #3b82f6;
+  --accent: #00d4ff;
+  --gold:   #f59e0b;
+
+  --txt:    #f1f5f9;
+  --txt-2:  #94a3b8;
+  --txt-3:  #475569;
+
+  --r-sm:   0.5rem;
+  --r-md:   1rem;
+  --r-lg:   1.5rem;
+
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  width: 100%; height: 100%;
+  background: var(--bg);
+  color: var(--txt);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { cursor: pointer; font: inherit; }
+input  { font: inherit; }
+
+/* ─── App Shell ───────────────────────────────────────────────────────────── */
+.app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(90deg, #0a0a18 0%, #14142a 100%);
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+
+.app-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #fff 30%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-sub { color: var(--txt-2); font-size: 0.8rem; margin-top: 0.2rem; }
+
+.header-badge {
+  padding: 0.35rem 0.9rem;
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 2rem;
+  font-size: 0.8rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* ─── Dashboard Layout ────────────────────────────────────────────────────── */
+.dashboard-layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+  align-items: start;
+  overflow: hidden;
+}
+
+/* ─── Panel Shared ────────────────────────────────────────────────────────── */
+.mars-panel,
+.earth-panel {
+  padding: 1.75rem;
+  min-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.mars-panel {
+  border-right: 1px solid var(--border);
+  background: linear-gradient(160deg, #0d0d1c 0%, #120a14 100%);
+}
+
+.earth-panel {
+  background: linear-gradient(160deg, #0a0f1c 0%, #0c1220 100%);
+}
+
+.panel-header { margin-bottom: 1.25rem; }
+
+.panel-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.panel-title-row h2 { font-size: 1.3rem; font-weight: 700; }
+.earth-header h2 { color: var(--earth); }
+
+/* ─── Rover Toggle ────────────────────────────────────────────────────────── */
+.rover-toggle {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+
+.rover-btn {
+  padding: 0.4rem 0.85rem;
+  background: transparent;
+  border: none;
+  color: var(--txt-2);
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.rover-btn.active {
+  background: var(--mars);
+  color: #fff;
+}
+
+.rover-btn:not(.active):hover { background: var(--bg-hover); color: var(--txt); }
+
+/* ─── Unit Toggle ─────────────────────────────────────────────────────────── */
+.unit-toggle {
+  margin-left: auto;
+  padding: 0.35rem 0.8rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--txt-2);
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.unit-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── Time Clocks ─────────────────────────────────────────────────────────── */
+.time-clocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.clock-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: center;
+}
+
+.clock-card.mtc          { border-color: rgba(239,68,68,0.4); }
+.clock-card.rover-clock  { border-color: rgba(245,158,11,0.4); }
+.clock-card.earth-utc    { border-color: rgba(59,130,246,0.4); }
+
+.clock-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--txt-2);
+}
+
+.clock-face {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--txt);
+  letter-spacing: 0.02em;
+}
+
+.clock-card.mtc .clock-face         { color: var(--mars); }
+.clock-card.rover-clock .clock-face { color: var(--gold); }
+.clock-card.earth-utc .clock-face   { color: var(--earth); }
+
+.clock-sub {
+  font-size: 0.72rem;
+  color: var(--txt-3);
+}
+
+/* ─── Rover Info Bar ──────────────────────────────────────────────────────── */
+.rover-info-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  margin-bottom: 0.75rem;
+  font-size: 0.82rem;
+}
+
+.rover-name     { font-weight: 600; color: var(--mars); }
+.rover-instrument { color: var(--txt-2); }
+.rover-location { color: var(--txt); }
+.rover-coords   { color: var(--txt-3); }
+
+/* ─── Sol Bar ─────────────────────────────────────────────────────────────── */
+.sol-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+}
+
+.sol-label  { font-size: 1.1rem; font-weight: 700; color: var(--txt); }
+.sol-date   { color: var(--txt-2); }
+.sol-season { color: var(--gold); }
+
+.data-quality        { font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 2rem; }
+.data-quality.complete { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+.data-quality.partial  { background: rgba(245,158,11,0.15); color: var(--gold); border: 1px solid rgba(245,158,11,0.3); }
+.data-quality.unavailable { background: rgba(148,163,184,0.1); color: var(--txt-2); border: 1px solid var(--border); }
+
+/* ─── Weather Metrics ─────────────────────────────────────────────────────── */
+.weather-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.metric-card.primary { grid-column: span 2; border-color: rgba(239,68,68,0.3); }
+
+.metric-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--txt-2); }
+
+.metric-main  { font-size: 1.8rem; font-weight: 700; color: var(--txt); }
+.metric-card.primary .metric-main { font-size: 2.4rem; color: var(--mars); }
+
+.metric-sub  { font-size: 0.8rem; color: var(--txt-2); }
+
+.metric-range {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.temp-val.temp-min { color: #60a5fa; }
+.temp-val.temp-max { color: #f87171; }
+
+.unavailable-note {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 1.25rem;
+  color: var(--txt-2);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ─── History Table ───────────────────────────────────────────────────────── */
+.history-section { margin-top: 0.5rem; }
+.history-section h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--txt-2); margin-bottom: 0.75rem; }
+
+.history-table { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; font-size: 0.82rem; }
+
+.history-row {
+  display: grid;
+  grid-template-columns: 60px 90px 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+
+.history-row:last-child { border-bottom: none; }
+
+.history-head {
+  background: var(--bg);
+  color: var(--txt-2);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.history-row.current-sol { background: rgba(239,68,68,0.07); }
+
+.no-data {
+  color: var(--txt-2);
+  font-size: 0.9rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* ─── Earth Panel ─────────────────────────────────────────────────────────── */
+.earth-search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.6rem 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--txt);
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--earth);
+}
+
+.search-input::placeholder { color: var(--txt-3); }
+
+.search-btn {
+  padding: 0.6rem 1rem;
+  background: var(--earth);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: opacity 0.2s;
+}
+
+.search-btn:hover:not(:disabled) { opacity: 0.85; }
+.search-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.preset-btn {
+  padding: 0.35rem 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--txt-2);
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.preset-btn.active {
+  background: var(--earth);
+  border-color: var(--earth);
+  color: #fff;
+}
+
+.preset-btn:not(.active):hover { border-color: var(--earth); color: var(--txt); }
+
+.earth-error {
+  padding: 0.75rem;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: var(--r-sm);
+  color: #f87171;
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+}
+
+.earth-location-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.earth-place   { font-weight: 600; color: var(--txt); font-size: 1rem; }
+.earth-country { color: var(--txt-2); font-size: 0.82rem; }
+.earth-coords  { color: var(--txt-3); font-size: 0.75rem; }
+
+.earth-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-earth);
+  border-radius: var(--r-md);
+  margin-bottom: 1rem;
+}
+
+.earth-icon { width: 60px; height: 60px; object-fit: contain; }
+
+.earth-temp-block { display: flex; flex-direction: column; gap: 0.2rem; }
+
+.earth-temp   { font-size: 2.2rem; font-weight: 700; color: var(--earth); line-height: 1; }
+.earth-temp-c { font-size: 0.85rem; color: var(--txt-2); }
+.earth-condition { font-size: 0.95rem; color: var(--txt); font-weight: 500; }
+.earth-feels  { font-size: 0.8rem; color: var(--txt-2); }
+
+.earth-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.e-metric {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.e-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--txt-2); }
+.e-val   { font-size: 1.1rem; font-weight: 600; color: var(--txt); }
+
+.earth-updated { font-size: 0.72rem; color: var(--txt-3); text-align: center; }
+
+/* ─── Footer ──────────────────────────────────────────────────────────────── */
+.app-footer {
+  padding: 0.875rem 2rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.72rem;
+  color: var(--txt-3);
+  text-align: center;
+  background: var(--bg);
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mars-panel {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    min-height: unset;
+  }
+
+  .earth-panel { min-height: unset; }
+
+  .time-clocks { grid-template-columns: 1fr 1fr; }
+  .clock-card.earth-utc { grid-column: span 2; }
+
+  .metric-card.primary { grid-column: span 1; }
+
+  .history-row {
+    grid-template-columns: 50px 80px 1fr 1fr;
+  }
+
+  .history-row > span:nth-child(5),
+  .history-row > span:nth-child(6) { display: none; }
+}
+
+@media (max-width: 480px) {
+  .app-header { padding: 1rem; }
+  .app-header h1 { font-size: 1.2rem; }
+  .mars-panel, .earth-panel { padding: 1rem; }
+  .time-clocks { grid-template-columns: 1fr; }
+  .clock-card.earth-utc { grid-column: span 1; }
+  .weather-metrics { grid-template-columns: 1fr 1fr; }
+  .metric-card.primary { grid-column: span 2; }
+}
+
+

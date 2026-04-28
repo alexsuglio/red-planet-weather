@@ -1,100 +1,75 @@
 # red-planet-weather
 
-A stock Node.js + Express application template, ready to clone and build locally.
+Local full-stack app that compares Earth weather (by location) against Mars weather from NASA.
 
----
+## Stack
 
-## Prerequisites
+- Frontend: React + Vite
+- API: Express (Node.js)
+- Earth weather source: Open-Meteo (free)
+- Mars weather source: NASA InSight API (API key required)
 
-- [Node.js](https://nodejs.org/) v18 or higher
-- [npm](https://www.npmjs.com/) v9 or higher
+## Security First
 
----
+- The NASA API key is read only on the server from environment variables.
+- The frontend never receives or stores the NASA key.
+- `.env` files are ignored by git.
 
-## Getting Started
+## Quick Start
 
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/alexsuglio/red-planet-weather.git
-cd red-planet-weather
-```
-
-### 2. Install dependencies
+1. Install root dependencies:
 
 ```bash
 npm install
 ```
 
-### 3. Configure environment variables
+2. Install backend dependencies:
 
 ```bash
-cp .env.example .env
+npm install --prefix server
 ```
 
-Edit `.env` to set your values (port, database URL, API keys, etc.).
+3. Install frontend dependencies:
 
-### 4. Start the development server
+```bash
+npm install --prefix client
+```
+
+4. Configure backend environment:
+
+```bash
+cp server/.env.example server/.env
+```
+
+Set your NASA key in `server/.env`:
+
+```bash
+NASA_API_KEY=your_key_here
+```
+
+5. Run both frontend and backend:
 
 ```bash
 npm run dev
 ```
 
-The server will start with **nodemon** (auto-reloads on file changes) at `http://localhost:3000`.
+Then open `http://localhost:5173`.
 
-### 5. Start the production server
+## Main Endpoints
 
-```bash
-npm start
-```
+- `GET /api/health`
+- `GET /api/weather/compare?location=YourLocation`
 
----
-
-## Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm start` | Start the server (production) |
-| `npm run dev` | Start the server with auto-reload (nodemon) |
-| `npm test` | Run tests with Jest and generate a coverage report |
-| `npm run lint` | Lint source and test files with ESLint |
-| `npm run lint:fix` | Auto-fix lint issues |
-
----
-
-## Project Structure
+## Project Layout
 
 ```
 red-planet-weather/
-├── src/
-│   ├── index.js              # App entry point
-│   ├── routes/
-│   │   └── index.js          # Route definitions
-│   └── middleware/
-│       └── errorHandler.js   # Global error handler
-├── tests/
-│   └── index.test.js         # API tests (Jest + Supertest)
-├── .env.example              # Example environment variables
-├── .eslintrc.js              # ESLint configuration
-├── .gitignore
+├── client/
+│   ├── src/
+│   ├── index.html
+│   └── vite.config.js
+├── server/
+│   ├── src/
+│   └── .env.example
 └── package.json
 ```
-
----
-
-## API Endpoints
-
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/` | Welcome message |
-| GET | `/health` | Health check |
-
----
-
-## Running Tests
-
-```bash
-npm test
-```
-
-Test coverage reports are written to the `coverage/` directory (excluded from git).
